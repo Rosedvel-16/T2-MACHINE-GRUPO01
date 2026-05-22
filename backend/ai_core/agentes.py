@@ -1,0 +1,1 @@
+# Clases orientadas a objetos (Sensor, Analizador, Decisor, Coordinador).

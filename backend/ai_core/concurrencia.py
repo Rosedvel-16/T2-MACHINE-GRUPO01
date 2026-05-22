@@ -1,0 +1,1 @@
+# Configuración de threading y colas de mensajes entre agentes.

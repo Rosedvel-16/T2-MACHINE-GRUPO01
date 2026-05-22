@@ -1,0 +1,1 @@
+# Funciones para detectar anomalías en la señal (peaks/caídas).

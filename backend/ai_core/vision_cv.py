@@ -1,0 +1,1 @@
+# Carga de las 3 imágenes y procesamiento (escala de grises, bordes, etc.).

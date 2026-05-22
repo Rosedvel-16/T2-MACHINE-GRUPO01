@@ -1,0 +1,1 @@
+# Endpoints de Django para enviar los resultados al frontend.
