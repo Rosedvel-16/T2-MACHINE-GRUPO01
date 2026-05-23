@@ -1,0 +1,303 @@
+{
+  "modulo": "Parte H — Razonamiento probabilístico (logica_probabilidad.py)",
+  "timestamp": "2026-05-23T00:30:17.278931",
+  "situaciones": [
+    {
+      "id": "SP-01",
+      "descripcion": "Vibración anómala indica falla mecánica inminente",
+      "dominio": "sensores",
+      "p_base": 0.75,
+      "p_consecuencia": 0.82,
+      "umbral_accion": 0.65,
+      "justificacion": "Estudios de mantenimiento predictivo en fajas transportadoras muestran que el 75% de las vibraciones >3 mm/s preceden a una falla en <48 h. Con mantenimiento diferido, la probabilidad de consecuencia sube a 82%.",
+      "factores": {
+        "duracion_minutos": 0.05,
+        "amplitud_relativa": 0.1,
+        "historial_fallas": 0.08
+      }
+    },
+    {
+      "id": "SP-02",
+      "descripcion": "Paquete deformado en imagen indica daño real",
+      "dominio": "vision",
+      "p_base": 0.8,
+      "p_consecuencia": 0.88,
+      "umbral_accion": 0.7,
+      "justificacion": "Validación cruzada de 500 imágenes etiquetadas: el detector de bordes alcanzó 80% de precisión. Cuando la densidad de bordes supera 8%, la correlación con daño confirmado sube a 88%. Margen de error visual ±5%.",
+      "factores": {
+        "densidad_bordes_pct": 0.04,
+        "num_contornos": 0.01,
+        "historial_proveedor": 0.05
+      }
+    },
+    {
+      "id": "SP-03",
+      "descripcion": "Temperatura alta sostenida implica riesgo operativo",
+      "dominio": "ambiental",
+      "p_base": 0.7,
+      "p_consecuencia": 0.78,
+      "umbral_accion": 0.6,
+      "justificacion": "Norma OSHA 1910.119: temperaturas >30°C por >2 h degradan adhesivos, embalajes y equipos. 70% de probabilidad de impacto operativo en almacenes sin climatización adecuada; 78% si persiste >4 h.",
+      "factores": {
+        "horas_exposicion": 0.06,
+        "humedad_combinada": 0.12,
+        "tipo_mercancia": 0.08
+      }
+    },
+    {
+      "id": "SP-04",
+      "descripcion": "Zona saturada provoca bloqueo de ruta",
+      "dominio": "logistica",
+      "p_base": 0.65,
+      "p_consecuencia": 0.74,
+      "umbral_accion": 0.55,
+      "justificacion": "Datos históricos del almacén: cuando la ocupación >90%, en el 65% de casos se generan bloqueos parciales de ruta. Si concurre una carretilla en pasillo: 74% de probabilidad de obstrucción.",
+      "factores": {
+        "pct_ocupacion": 0.03,
+        "vehiculos_en_pasillo": 0.1,
+        "turno_nocturno": 0.07
+      }
+    },
+    {
+      "id": "SP-05",
+      "descripcion": "Humedad excesiva daña embalajes y etiquetas",
+      "dominio": "ambiental",
+      "p_base": 0.6,
+      "p_consecuencia": 0.68,
+      "umbral_accion": 0.55,
+      "justificacion": "ISO 2233: embalajes de cartón expuestos a >80% HR por >3 h pierden hasta 40% de resistencia. Probabilidad de daño detectable: 60% (base), 68% cuando la temperatura también es >28°C.",
+      "factores": {
+        "hr_nivel": 0.04,
+        "temperatura_base": 0.08
+      }
+    },
+    {
+      "id": "SP-06",
+      "descripcion": "Falla de sensor implica datos no confiables",
+      "dominio": "sensores",
+      "p_base": 0.55,
+      "p_consecuencia": 0.72,
+      "umbral_accion": 0.5,
+      "justificacion": "MTBF (Mean Time Between Failures) de sensores IoT industriales ≈ 8700 h. Si un sensor lleva >2 ciclos sin dato, la probabilidad de falla real (vs. falla de red) es 55%; sube a 72% si otros nodos reportan con normalidad.",
+      "factores": {
+        "ciclos_sin_dato": 0.05,
+        "redundancia_activa": -0.1
+      }
+    },
+    {
+      "id": "SP-07",
+      "descripcion": "Pedido prioritario en riesgo de incumplimiento SLA",
+      "dominio": "logistica",
+      "p_base": 0.5,
+      "p_consecuencia": 0.65,
+      "umbral_accion": 0.45,
+      "justificacion": "Análisis de SLA: pedidos VIP con >30 min de retraso incumplen en el 50% de los casos por cadena de bloqueos. Si la zona ya está saturada, la probabilidad de incumplimiento sube a 65%.",
+      "factores": {
+        "minutos_retraso": 0.03,
+        "zona_libre": -0.15
+      }
+    },
+    {
+      "id": "SP-08",
+      "descripcion": "Riesgo operativo global crítico (multi-variable)",
+      "dominio": "diagnostico",
+      "p_base": 0.4,
+      "p_consecuencia": 0.9,
+      "umbral_accion": 0.75,
+      "justificacion": "Cuando concurren ≥ 3 alertas simultáneas (mecánica + ambiental + visión), la experiencia operativa muestra riesgo de parada >90%. La probabilidad base de tal concurrencia en un turno es 40%.",
+      "factores": {
+        "n_alertas_activas": 0.1,
+        "sin_mantenimiento": 0.08
+      }
+    }
+  ],
+  "escenarios": {
+    "ESCENARIO A — Operación tranquila": {
+      "evaluaciones": [
+        {
+          "id": "SP-01",
+          "descripcion": "Vibración anómala indica falla mecánica inminente",
+          "dominio": "sensores",
+          "p_base": 0.75,
+          "p_ajustada": 0.75,
+          "umbral_accion": 0.65,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-03",
+          "descripcion": "Temperatura alta sostenida implica riesgo operativo",
+          "dominio": "ambiental",
+          "p_base": 0.7,
+          "p_ajustada": 0.73,
+          "umbral_accion": 0.6,
+          "nivel": "ALTO"
+        },
+        {
+          "id": "SP-07",
+          "descripcion": "Pedido prioritario en riesgo de incumplimiento SLA",
+          "dominio": "logistica",
+          "p_base": 0.5,
+          "p_ajustada": 0.35,
+          "umbral_accion": 0.45,
+          "nivel": "MEDIO"
+        }
+      ],
+      "decision": {
+        "p_global": 0.9561,
+        "nivel_global": "CRÍTICO",
+        "accion": "DETENER OPERACIONES — Activar protocolo de emergencia",
+        "alertas_activas": 2,
+        "situaciones": [
+          "SP-01",
+          "SP-03"
+        ]
+      }
+    },
+    "ESCENARIO B — Alerta mecánica moderada": {
+      "evaluaciones": [
+        {
+          "id": "SP-01",
+          "descripcion": "Vibración anómala indica falla mecánica inminente",
+          "dominio": "sensores",
+          "p_base": 0.75,
+          "p_ajustada": 0.95,
+          "umbral_accion": 0.65,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-06",
+          "descripcion": "Falla de sensor implica datos no confiables",
+          "dominio": "sensores",
+          "p_base": 0.55,
+          "p_ajustada": 0.7000000000000001,
+          "umbral_accion": 0.5,
+          "nivel": "ALTO"
+        },
+        {
+          "id": "SP-04",
+          "descripcion": "Zona saturada provoca bloqueo de ruta",
+          "dominio": "logistica",
+          "p_base": 0.65,
+          "p_ajustada": 0.71,
+          "umbral_accion": 0.55,
+          "nivel": "ALTO"
+        }
+      ],
+      "decision": {
+        "p_global": 0.9957,
+        "nivel_global": "CRÍTICO",
+        "accion": "DETENER OPERACIONES — Activar protocolo de emergencia",
+        "alertas_activas": 3,
+        "situaciones": [
+          "SP-01",
+          "SP-06",
+          "SP-04"
+        ]
+      }
+    },
+    "ESCENARIO C — Crisis ambiental y de visión": {
+      "evaluaciones": [
+        {
+          "id": "SP-02",
+          "descripcion": "Paquete deformado en imagen indica daño real",
+          "dominio": "vision",
+          "p_base": 0.8,
+          "p_ajustada": 0.99,
+          "umbral_accion": 0.7,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-03",
+          "descripcion": "Temperatura alta sostenida implica riesgo operativo",
+          "dominio": "ambiental",
+          "p_base": 0.7,
+          "p_ajustada": 0.99,
+          "umbral_accion": 0.6,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-05",
+          "descripcion": "Humedad excesiva daña embalajes y etiquetas",
+          "dominio": "ambiental",
+          "p_base": 0.6,
+          "p_ajustada": 0.7999999999999999,
+          "umbral_accion": 0.55,
+          "nivel": "CRÍTICO"
+        }
+      ],
+      "decision": {
+        "p_global": 1.0,
+        "nivel_global": "CRÍTICO",
+        "accion": "DETENER OPERACIONES — Activar protocolo de emergencia",
+        "alertas_activas": 3,
+        "situaciones": [
+          "SP-02",
+          "SP-03",
+          "SP-05"
+        ]
+      }
+    },
+    "ESCENARIO D — Crisis múltiple (peor caso)": {
+      "evaluaciones": [
+        {
+          "id": "SP-01",
+          "descripcion": "Vibración anómala indica falla mecánica inminente",
+          "dominio": "sensores",
+          "p_base": 0.75,
+          "p_ajustada": 0.99,
+          "umbral_accion": 0.65,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-02",
+          "descripcion": "Paquete deformado en imagen indica daño real",
+          "dominio": "vision",
+          "p_base": 0.8,
+          "p_ajustada": 0.99,
+          "umbral_accion": 0.7,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-03",
+          "descripcion": "Temperatura alta sostenida implica riesgo operativo",
+          "dominio": "ambiental",
+          "p_base": 0.7,
+          "p_ajustada": 0.99,
+          "umbral_accion": 0.6,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-04",
+          "descripcion": "Zona saturada provoca bloqueo de ruta",
+          "dominio": "logistica",
+          "p_base": 0.65,
+          "p_ajustada": 0.97,
+          "umbral_accion": 0.55,
+          "nivel": "CRÍTICO"
+        },
+        {
+          "id": "SP-08",
+          "descripcion": "Riesgo operativo global crítico (multi-variable)",
+          "dominio": "diagnostico",
+          "p_base": 0.4,
+          "p_ajustada": 0.78,
+          "umbral_accion": 0.75,
+          "nivel": "CRÍTICO"
+        }
+      ],
+      "decision": {
+        "p_global": 1.0,
+        "nivel_global": "CRÍTICO",
+        "accion": "DETENER OPERACIONES — Activar protocolo de emergencia",
+        "alertas_activas": 5,
+        "situaciones": [
+          "SP-01",
+          "SP-02",
+          "SP-03",
+          "SP-04",
+          "SP-08"
+        ]
+      }
+    }
+  }
+}

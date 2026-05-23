@@ -1,0 +1,72 @@
+{
+  "modulo": "Parte C — Procesamiento de imágenes (vision_cv.py)",
+  "timestamp": "2026-05-23T00:30:12.509231",
+  "imagenes_procesadas": 3,
+  "resultados": [
+    {
+      "imagen": "01_paquete_danado.jpg",
+      "tecnicas": [
+        "Escala de grises",
+        "Gaussiano",
+        "Canny",
+        "Umbral adaptativo"
+      ],
+      "px_borde": 5618,
+      "densidad_borde_pct": 2.81,
+      "num_contornos": 12,
+      "px_umbralados_pct": 9.01,
+      "danio_detectado": false,
+      "nivel_alerta": "NINGUNO",
+      "archivos_salida": [
+        "img1_b_grises.jpg",
+        "img1_c1_gaussiano.jpg",
+        "img1_c2_canny.jpg",
+        "img1_c2_canny_overlay.jpg",
+        "img1_c3_umbral_adaptativo.jpg"
+      ]
+    },
+    {
+      "imagen": "02_paquete_buen_estado.jpg",
+      "tecnicas": [
+        "Escala de grises",
+        "Otsu",
+        "Apertura morfológica",
+        "CLAHE"
+      ],
+      "umbral_otsu": 160.0,
+      "pct_objeto": 52.74,
+      "contornos_grandes": 1,
+      "compacidad": 0.76,
+      "estado_ok": true,
+      "nivel_alerta": "NINGUNO",
+      "archivos_salida": [
+        "img2_b_grises.jpg",
+        "img2_c1_otsu.jpg",
+        "img2_c2_apertura.jpg",
+        "img2_c3_clahe.jpg"
+      ]
+    },
+    {
+      "imagen": "03_zona_obstruida.jpg",
+      "tecnicas": [
+        "Escala de grises",
+        "Canny",
+        "Segmentación HSV",
+        "Morfología"
+      ],
+      "densidad_borde_pct": 3.79,
+      "px_peligro_pct": 15.79,
+      "zonas_peligro": 21,
+      "obstruccion_detectada": true,
+      "nivel_alerta": "ALTO",
+      "archivos_salida": [
+        "img3_b_grises.jpg",
+        "img3_c1_canny.jpg",
+        "img3_c1_canny_overlay.jpg",
+        "img3_c2_mascara_peligro.jpg",
+        "img3_c2_zona_peligro.jpg",
+        "img3_c3_dilatado.jpg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "modulo": "Parte G — Lógica proposicional (logica_proposicional.py)",
+  "timestamp": "2026-05-23T00:30:15.232080",
+  "proposiciones": {
+    "P": {
+      "simbolo": "P",
+      "descripcion": "La vibración en la estantería es anómala",
+      "dominio": "sensores"
+    },
+    "Q": {
+      "simbolo": "Q",
+      "descripcion": "Existe riesgo mecánico en la zona",
+      "dominio": "diagnóstico"
+    },
+    "R": {
+      "simbolo": "R",
+      "descripcion": "Se detiene la operación de carga/descarga",
+      "dominio": "control"
+    },
+    "T": {
+      "simbolo": "T",
+      "descripcion": "La temperatura del almacén es alta (> 30 °C)",
+      "dominio": "sensores"
+    },
+    "H": {
+      "simbolo": "H",
+      "descripcion": "La humedad ambiental es excesiva (> 80%)",
+      "dominio": "sensores"
+    },
+    "A": {
+      "simbolo": "A",
+      "descripcion": "Se emite alerta ambiental al supervisor",
+      "dominio": "alertas"
+    },
+    "D": {
+      "simbolo": "D",
+      "descripcion": "El paquete inspeccionado presenta daño visible",
+      "dominio": "visión"
+    },
+    "M": {
+      "simbolo": "M",
+      "descripcion": "El paquete requiere revisión manual",
+      "dominio": "control"
+    },
+    "Z": {
+      "simbolo": "Z",
+      "descripcion": "La zona de carga está saturada (> 90% ocupación)",
+      "dominio": "sensores"
+    },
+    "O": {
+      "simbolo": "O",
+      "descripcion": "La ruta de acceso está obstruida",
+      "dominio": "visión"
+    },
+    "C": {
+      "simbolo": "C",
+      "descripcion": "Se ordena la reubicación de carga",
+      "dominio": "control"
+    },
+    "E": {
+      "simbolo": "E",
+      "descripcion": "El pedido tiene prioridad alta (cliente VIP)",
+      "dominio": "logística"
+    },
+    "L": {
+      "simbolo": "L",
+      "descripcion": "La zona de despacho está libre (< 40% ocupación)",
+      "dominio": "sensores"
+    },
+    "S": {
+      "simbolo": "S",
+      "descripcion": "Se recomienda despacho inmediato",
+      "dominio": "logística"
+    },
+    "N": {
+      "simbolo": "N",
+      "descripcion": "Nivel de riesgo operativo global es CRÍTICO",
+      "dominio": "diagnóstico"
+    }
+  },
+  "expresiones": [
+    {
+      "id": "EL-01",
+      "formula": "P → Q",
+      "descripcion": "Si la vibración es anómala, entonces existe riesgo mecánico.",
+      "tipo": "regla"
+    },
+    {
+      "id": "EL-02",
+      "formula": "Q ∧ R → N",
+      "descripcion": "Riesgo mecánico activo Y operación detenida → nivel crítico global.",
+      "tipo": "alerta"
+    },
+    {
+      "id": "EL-03",
+      "formula": "T ∧ H → A",
+      "descripcion": "Temperatura alta Y humedad excesiva → emitir alerta ambiental.",
+      "tipo": "regla"
+    },
+    {
+      "id": "EL-04",
+      "formula": "D → M",
+      "descripcion": "Paquete dañado detectado → requiere revisión manual.",
+      "tipo": "regla"
+    },
+    {
+      "id": "EL-05",
+      "formula": "Z ∧ O → C",
+      "descripcion": "Zona saturada Y ruta obstruida → ordenar reubicación de carga.",
+      "tipo": "regla"
+    },
+    {
+      "id": "EL-06",
+      "formula": "E ∧ L → S",
+      "descripcion": "Pedido prioritario Y zona libre → recomendar despacho inmediato.",
+      "tipo": "regla"
+    },
+    {
+      "id": "EL-07",
+      "formula": "A ∨ N → R",
+      "descripcion": "Alerta ambiental O nivel crítico → detener operaciones.",
+      "tipo": "alerta"
+    },
+    {
+      "id": "EL-08",
+      "formula": "¬M ∧ ¬O → S",
+      "descripcion": "Sin revisión pendiente Y sin obstrucción → zona apta para despacho.",
+      "tipo": "condición"
+    },
+    {
+      "id": "EL-09",
+      "formula": "Q ↔ R   (bajo P activo)",
+      "descripcion": "Riesgo mecánico si y sólo si la operación está detenida (cuando vibración anómala).",
+      "tipo": "condición"
+    },
+    {
+      "id": "EL-10",
+      "formula": "(P ∨ T) ∧ (H ∨ D) → N",
+      "descripcion": "Combinación de señales críticas de sensor y visión → riesgo global.",
+      "tipo": "alerta"
+    }
+  ],
+  "escenarios": {
+    "ESC-1: Falla mecánica activa": {
+      "valores": {
+        "P": true,
+        "Q": true,
+        "R": true,
+        "T": false,
+        "H": false,
+        "A": false,
+        "D": false,
+        "M": false,
+        "Z": false,
+        "O": false,
+        "C": false,
+        "E": false,
+        "L": false,
+        "S": false,
+        "N": true
+      },
+      "consistente": false,
+      "inferencias": {
+        "Q": true
+      },
+      "n_violaciones": 1
+    },
+    "ESC-2: Alerta ambiental (calor+humedad)": {
+      "valores": {
+        "P": false,
+        "Q": false,
+        "R": false,
+        "T": true,
+        "H": true,
+        "A": true,
+        "D": false,
+        "M": false,
+        "Z": false,
+        "O": false,
+        "C": false,
+        "E": false,
+        "L": true,
+        "S": false,
+        "N": false
+      },
+      "consistente": false,
+      "inferencias": {
+        "A": true
+      },
+      "n_violaciones": 3
+    },
+    "ESC-3: Paquete dañado + zona saturada": {
+      "valores": {
+        "P": false,
+        "Q": false,
+        "R": false,
+        "T": false,
+        "H": false,
+        "A": false,
+        "D": true,
+        "M": true,
+        "Z": true,
+        "O": true,
+        "C": true,
+        "E": true,
+        "L": false,
+        "S": false,
+        "N": false
+      },
+      "consistente": true,
+      "inferencias": {
+        "M": true,
+        "C": true
+      },
+      "n_violaciones": 0
+    },
+    "ESC-4: Despacho expedito exitoso": {
+      "valores": {
+        "P": false,
+        "Q": false,
+        "R": false,
+        "T": false,
+        "H": false,
+        "A": false,
+        "D": false,
+        "M": false,
+        "Z": false,
+        "O": false,
+        "C": false,
+        "E": true,
+        "L": true,
+        "S": true,
+        "N": false
+      },
+      "consistente": true,
+      "inferencias": {
+        "S": true
+      },
+      "n_violaciones": 0
+    },
+    "ESC-5: Crisis múltiple": {
+      "valores": {
+        "P": true,
+        "Q": true,
+        "R": true,
+        "T": true,
+        "H": true,
+        "A": true,
+        "D": true,
+        "M": true,
+        "Z": true,
+        "O": true,
+        "C": true,
+        "E": false,
+        "L": false,
+        "S": false,
+        "N": true
+      },
+      "consistente": true,
+      "inferencias": {
+        "Q": true,
+        "A": true,
+        "M": true,
+        "C": true
+      },
+      "n_violaciones": 0
+    }
+  }
+}
