@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Entornos virtuales
+venv/
+env/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Salidas generadas (reportes y graficos)
+backend/ai_core/images_output/
+*.log
+
+# Node (frontend si usa React)
+node_modules/
+dist/
+build/
