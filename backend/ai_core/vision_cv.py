@@ -27,7 +27,10 @@ from datetime import datetime
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-RUTA_ENTRADA = BASE_DIR
+# Use the shared frontend image folder as input source for Streamlit runs.
+RUTA_ENTRADA = os.path.abspath(
+    os.path.join(BASE_DIR, "..", "..", "frontend", "docs", "imagenes_prueba", "images_output")
+)
 RUTA_SALIDA = os.path.join(BASE_DIR, "images_output")
 os.makedirs(RUTA_SALIDA, exist_ok=True)
 
@@ -94,10 +97,17 @@ def subtitulo(texto: str):
 
 
 def listar_jpgs() -> list:
-    """Lista archivos .jpg en la carpeta del script."""
-    archivos = [f for f in os.listdir(RUTA_ENTRADA)
-                if f.lower().endswith(".jpg") and os.path.isfile(os.path.join(RUTA_ENTRADA, f))]
-    return sorted(archivos)
+    """Lista archivos .jpg en la carpeta de entrada.
+
+    Si existen archivos con sufijo "_a_original.jpg", se priorizan como entradas
+    para evitar mezclar resultados intermedios.
+    """
+    archivos = [
+        f for f in os.listdir(RUTA_ENTRADA)
+        if f.lower().endswith(".jpg") and os.path.isfile(os.path.join(RUTA_ENTRADA, f))
+    ]
+    originales = [f for f in archivos if f.lower().endswith("_a_original.jpg")]
+    return sorted(originales) if originales else sorted(archivos)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
